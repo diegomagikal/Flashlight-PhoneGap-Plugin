@@ -31,7 +31,7 @@ $ cordova plugin add cordova-plugin-flashlight
 
 Bleeding edge version from Github:
 ```
-$ cordova plugin add https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin
+$ cordova plugin add https://github.com/diegomagikal/Flashlight-PhoneGap-Plugin
 ```
 
 ### PhoneGap Build
