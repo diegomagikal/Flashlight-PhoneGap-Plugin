@@ -90,7 +90,7 @@ public class Flashlight extends CordovaPlugin {
     }
   }
 
-  //frontal camera check
+  //by diegoluiz: frontal camera check
   public Camera openFrontFacingCameraGingerbread() {
       int cameraCount = 0;
       Camera cam = null;
@@ -148,8 +148,22 @@ public class Flashlight extends CordovaPlugin {
           mCamera.setPreviewTexture(new SurfaceTexture(0));
         }
       }
+      
       final Camera.Parameters mParameters = mCamera.getParameters();
-      mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
+
+      //by diegoluiz: add FLASH_MODE_ON support
+      List<String> supportedFlashModes = params.getSupportedFlashModes();
+      if(supportedFlashModes != null) {
+          if(supportedFlashModes.contains(mParameters.FLASH_MODE_TORCH)) {
+              mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
+          } else if(supportedFlashModes.contains(mParameters.FLASH_MODE_ON)) {
+              mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_ON : Camera.Parameters.FLASH_MODE_OFF);
+          } 
+      }else{
+              mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);        
+      }
+
+
       mCamera.setParameters(mParameters);
       mCamera.startPreview();
       callbackContext.success();
