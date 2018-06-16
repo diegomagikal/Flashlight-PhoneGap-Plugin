@@ -90,6 +90,26 @@ public class Flashlight extends CordovaPlugin {
     }
   }
 
+  //frontal camera check
+  public Camera openFrontFacingCameraGingerbread() {
+      int cameraCount = 0;
+      Camera cam = null;
+      Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+      cameraCount = Camera.getNumberOfCameras();
+      for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+          Camera.getCameraInfo(camIdx, cameraInfo);
+          if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+              try {
+                  cam = Camera.open(camIdx);
+              } catch (RuntimeException e) {
+                  Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+              }
+          }
+      }
+
+      return cam;
+  }
+
   private boolean isCapable() {
     if (capable == null) {
       capable = false;
